@@ -15,6 +15,22 @@
 
 class Keypad():
 
+    lookup = {
+            1 : "1",
+            2 : "2",
+            3 : "3",
+            4 : "4",
+            5 : "5",
+            6 : "6",
+            7 : "7",
+            8 : "8",
+            9 : "9",
+            10 : "A",
+            11 : "B",
+            12 : "C",
+            13 : "D"
+        }
+
     code = ""
     
     def __init__(self,curr):
@@ -44,57 +60,30 @@ class Keypad():
             if self.curr in (2,3,5,6,7,8,10,11): self.curr = self.curr + 1
         
 
-    def incCode(self): self.code = self.code + str(self.curr)
-    def incCode2(self):
-        lookup = {
-            1 : "1",
-            2 : "2",
-            3 : "3",
-            4 : "4",
-            5 : "5",
-            6 : "6",
-            7 : "7",
-            8 : "8",
-            9 : "9",
-            10 : "A",
-            11 : "B",
-            12 : "C",
-            13 : "D"
-        }
-        self.code = self.code + lookup[self.curr]
-    def squishCode(self) : self.code = ""
+    def incCode(self): self.code = self.code + self.lookup[self.curr]
 
-
-    def determineLine(self,line):
-        for c in line: self.move(c)
+    def determineLine(self,line,f):
+        for c in line: f(c)
         self.incCode()
 
-    def determineLine2(self,line):
-        for c in line: self.move2(c)
-        self.incCode2()
-
-    def determineCode(self,f):
-        for line in open(f): self.determineLine(line.strip())
-
-    def determineCode2(self,f):
-        for line in open(f): self.determineLine2(line.strip())
-
+    def determineCode(self,f,func):
+        for line in open(f): self.determineLine(line.strip(),func)
                 
             
 keypad = Keypad(5)
-keypad.determineCode("day2-test")
+keypad.determineCode("day2-test",keypad.move)
 print(keypad.code)
 
 keypad2 = Keypad(5)
-keypad2.determineCode("day2-input")
+keypad2.determineCode("day2-input",keypad2.move)
 print(keypad2.code)
 
 keypad3 = Keypad(5)
-keypad3.determineCode2("day2-test")
+keypad3.determineCode("day2-test",keypad3.move2)
 print(keypad3.code)
 
 keypad4 = Keypad(5)
-keypad4.determineCode2("day2-input")
+keypad4.determineCode("day2-input",keypad4.move2)
 print(keypad4.code)
 
     
