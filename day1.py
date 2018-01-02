@@ -1,3 +1,4 @@
+# http://adventofcode.com/2016/day/1
 
 class Taxi():
     locations = dict()
