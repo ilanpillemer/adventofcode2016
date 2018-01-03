@@ -7,8 +7,7 @@ def valid(a,b,c):
 def howManyValid(f):
     count = 0
     for line in open(f):
-        numbers = line.split()
-        a,b,c = int(numbers[0]),int(numbers[1]),int(numbers[2])
+        [a,b,c] = [int(e) for e in line.split()]
         if valid(a,b,c) : count = count + 1
     print("valid row wise triangles:{}".format(count))
 
@@ -16,8 +15,7 @@ def howManyValidColumnWise(f):
     count = 0
     line_no = 1
     for line in open(f):
-        numbers = line.split()
-        a,b,c = int(numbers[0]),int(numbers[1]),int(numbers[2])
+        [a,b,c] = [int(e) for e in line.split()]
         if line_no == 1 : a1,b1,c1 = a,b,c
         elif line_no == 2: a2,b2,c2 = a,b,c
         elif line_no == 3: a3,b3,c3 = a,b,c
