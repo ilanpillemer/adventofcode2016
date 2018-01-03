@@ -2,9 +2,7 @@
 
 def valid(a,b,c):
     [a,b,c] = sorted([a,b,c])
-    if (a + b) > c :
-        return True
-    return False
+    return True if (a + b) > c else False
 
 def howManyValid(f):
     count = 0
