@@ -1,8 +1,7 @@
 # http://adventofcode.com/2016/day/3
 
 def valid(a,b,c):
-    if a > b : a,b = b,a
-    if b > c : b,c = c,b
+    [a,b,c] = sorted([a,b,c])
     if (a + b) > c :
         return True
     return False
