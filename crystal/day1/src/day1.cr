@@ -64,7 +64,7 @@ module Day1
     x, y = go(d, amt, x, y)
     n = gets(",", chomp = true).strip
   end
-  result = "part1 :: #{x.abs},#{y.abs} => #{x.abs + y.abs}"
+  result = "part1 :: #{x},#{y} => #{x.abs + y.abs}"
   puts(result)
 end
 
