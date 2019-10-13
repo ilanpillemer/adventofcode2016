@@ -98,10 +98,3 @@ struct Nil
     self
   end
 end
-
-# COMMANDS = {
-#  0b001 => "wink",
-#  0b010 => "double blink",
-#  # etc
-# }
-# COMMANDS.select {|k, _| c & k > 0 }
