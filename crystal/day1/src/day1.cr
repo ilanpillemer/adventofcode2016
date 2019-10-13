@@ -34,7 +34,6 @@ module Day1
       ly, uy = order(oly, y)
       (ly + 1...uy).each do |ay|
         output("part2 :: #{x},#{ay} => #{x.abs + ay.abs}") if @@seen.has_key?({x, ay})
-
         @@seen[{x, ay}] = x.abs + ay.abs
       end
     when "W"
@@ -42,7 +41,6 @@ module Day1
       lx, ux = order(olx, x)
       (lx + 1...ux).each do |ax|
         output("part2 :: #{ax},#{y} => #{ax.abs + y.abs}") if @@seen.has_key?({ax, y})
-
         @@seen[{ax, y}] = ax.abs + y.abs
       end
     when "E"
@@ -50,7 +48,6 @@ module Day1
       lx, ux = order(olx, x)
       (lx + 1...ux).each do |ax|
         output("part2 :: #{ax},#{y} => #{ax.abs + y.abs}") if @@seen.has_key?({ax, y})
-
         @@seen[{ax, y}] = ax.abs + y.abs
       end
     end
