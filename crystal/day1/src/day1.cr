@@ -18,44 +18,44 @@ module Day1
     end
   end
 
-  def self.go(d, a : Int32, dx, dy)
-    oldx, oldy = dx, dy
+  def self.go(d, a : Int32, x, y)
+    olx, oly = x, y
 
     case d
     when "N"
-      dy += a
-      ly, uy = order(oldy, dy)
+      y += a
+      ly, uy = order(oly, y)
       (ly + 1...uy).each do |ay|
-        output("part2 :: #{dx},#{ay} => #{dx.abs + ay.abs}") if @@seen.has_key?({dx, ay})
-        @@seen[{dx, ay}] = dx.abs + ay.abs
+        output("part2 :: #{x},#{ay} => #{x.abs + ay.abs}") if @@seen.has_key?({x, ay})
+        @@seen[{x, ay}] = x.abs + ay.abs
       end
     when "S"
-      dy -= a
-      ly, uy = order(oldy, dy)
+      y -= a
+      ly, uy = order(oly, y)
       (ly + 1...uy).each do |ay|
-        output("part2 :: #{dx},#{ay} => #{dx.abs + ay.abs}") if @@seen.has_key?({dx, ay})
+        output("part2 :: #{x},#{ay} => #{x.abs + ay.abs}") if @@seen.has_key?({x, ay})
 
-        @@seen[{dx, ay}] = dx.abs + ay.abs
+        @@seen[{x, ay}] = x.abs + ay.abs
       end
     when "W"
-      dx -= a
-      lx, ux = order(oldx, dx)
+      x -= a
+      lx, ux = order(olx, x)
       (lx + 1...ux).each do |ax|
-        output("part2 :: #{ax},#{dy} => #{ax.abs + dy.abs}") if @@seen.has_key?({ax, dy})
+        output("part2 :: #{ax},#{y} => #{ax.abs + y.abs}") if @@seen.has_key?({ax, y})
 
-        @@seen[{ax, dy}] = ax.abs + dy.abs
+        @@seen[{ax, y}] = ax.abs + y.abs
       end
     when "E"
-      dx += a
-      lx, ux = order(oldx, dx)
+      x += a
+      lx, ux = order(olx, x)
       (lx + 1...ux).each do |ax|
-        output("part2 :: #{ax},#{dy} => #{ax.abs + dy.abs}") if @@seen.has_key?({ax, dy})
+        output("part2 :: #{ax},#{y} => #{ax.abs + y.abs}") if @@seen.has_key?({ax, y})
 
-        @@seen[{ax, dy}] = ax.abs + dy.abs
+        @@seen[{ax, y}] = ax.abs + y.abs
       end
     end
 
-    return dx, dy
+    return x, y
   end
 
   n = gets(",", chomp = true).strip
