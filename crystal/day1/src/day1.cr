@@ -69,31 +69,19 @@ module Day1
 end
 
 class String
+  TURNS = {
+    "RN" => "E",
+    "RE" => "S",
+    "RS" => "W",
+    "RW" => "N",
+    "LN" => "W",
+    "LW" => "S",
+    "LS" => "E",
+    "LE" => "N",
+  }
+
   def turn(d)
-    case d
-    when "R"
-      case self
-      when "N"
-        "E"
-      when "E"
-        "S"
-      when "S"
-        "W"
-      when "W"
-        "N"
-      end
-    when "L"
-      case self
-      when "N"
-        "W"
-      when "W"
-        "S"
-      when "S"
-        "E"
-      when "E"
-        "N"
-      end
-    end
+    return TURNS[d + self]?
   end
 end
 
@@ -110,3 +98,10 @@ struct Nil
     self
   end
 end
+
+# COMMANDS = {
+#  0b001 => "wink",
+#  0b010 => "double blink",
+#  # etc
+# }
+# COMMANDS.select {|k, _| c & k > 0 }
