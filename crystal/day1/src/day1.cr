@@ -1,17 +1,61 @@
 # TODO: Write documentation for `Day1`
 module Day1
-  def self.go(d, a : Int32, x, y)
+  @@seen = {} of {Int32, Int32} => Int32
+  @@solved = false
+
+  def self.output(str)
+    if !@@solved
+      puts(str)
+    end
+    @@solved = true
+  end
+
+  def self.order(i, j)
+    if i < j
+      return i, j
+    else
+      return j, i
+    end
+  end
+
+  def self.go(d, a : Int32, dx, dy)
+    oldx, oldy = dx, dy
+
     case d
     when "N"
-      y += a
+      dy += a
+      ly, uy = order(oldy, dy)
+      (ly + 1...uy).each do |ay|
+        output("part2 :: #{dx},#{ay} => #{dx.abs + ay.abs}") if @@seen.has_key?({dx, ay})
+        @@seen[{dx, ay}] = dx.abs + ay.abs
+      end
     when "S"
-      y -= a
+      dy -= a
+      ly, uy = order(oldy, dy)
+      (ly + 1...uy).each do |ay|
+        output("part2 :: #{dx},#{ay} => #{dx.abs + ay.abs}") if @@seen.has_key?({dx, ay})
+
+        @@seen[{dx, ay}] = dx.abs + ay.abs
+      end
     when "W"
-      x -= a
+      dx -= a
+      lx, ux = order(oldx, dx)
+      (lx + 1...ux).each do |ax|
+        output("part2 :: #{ax},#{dy} => #{ax.abs + dy.abs}") if @@seen.has_key?({ax, dy})
+
+        @@seen[{ax, dy}] = ax.abs + dy.abs
+      end
     when "E"
-      x += a
+      dx += a
+      lx, ux = order(oldx, dx)
+      (lx + 1...ux).each do |ax|
+        output("part2 :: #{ax},#{dy} => #{ax.abs + dy.abs}") if @@seen.has_key?({ax, dy})
+
+        @@seen[{ax, dy}] = ax.abs + dy.abs
+      end
     end
-    return x, y
+
+    return dx, dy
   end
 
   n = gets(",", chomp = true).strip
