@@ -1,0 +1,13 @@
+name: day3
+version: 0.1.0
+
+authors:
+  - "Ilan <ilan.pillemer@gmail.com>
+
+targets:
+  day3:
+    main: src/day3.cr
+
+crystal: 0.31.1
+
+license: MIT
