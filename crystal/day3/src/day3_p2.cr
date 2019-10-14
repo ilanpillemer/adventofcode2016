@@ -12,7 +12,6 @@ t3 = [] of Int32
 
 STDIN.each_line do |l|
   arr = l.split.map(&.to_i)
-
   t1 << arr[0]
   t2 << arr[1]
   t3 << arr[2]
@@ -30,4 +29,4 @@ count += t3.in_groups_of(3, 0).count do |a|
   valid(a)
 end
 
-puts("part1 => #{count} valid triangles")
+puts("part2 => #{count} valid triangles")
