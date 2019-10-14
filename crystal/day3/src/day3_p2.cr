@@ -6,27 +6,13 @@ def valid(arr : Array(Int32))
 end
 
 count = 0
-t1 = [] of Int32
-t2 = [] of Int32
-t3 = [] of Int32
 
-STDIN.each_line do |l|
-  arr = l.split.map(&.to_i)
-  t1 << arr[0]
-  t2 << arr[1]
-  t3 << arr[2]
+tr = STDIN.gets_to_end.split.map(&.to_i).in_groups_of(3, 0).transpose
+tr.each do |a|
+  count += a.in_groups_of(3, 0).count do |t|
+    valid(t)
+  end
 end
-
-count += t1.in_groups_of(3, 0).count do |a|
-  valid(a)
-end
-
-count += t2.in_groups_of(3, 0).count do |a|
-  valid(a)
-end
-
-count += t3.in_groups_of(3, 0).count do |a|
-  valid(a)
-end
+# puts(tr)
 
 puts("part2 => #{count} valid triangles")
