@@ -5,14 +5,12 @@ def valid(arr : Array(Int32))
   true
 end
 
-count = 0
-
-tr = STDIN.gets_to_end.split.map(&.to_i).in_groups_of(3, 0).transpose
-tr.each do |a|
-  count += a.in_groups_of(3, 0).count do |t|
-    valid(t)
-  end
-end
-# puts(tr)
+count = STDIN.gets_to_end
+  .split
+  .map(&.to_i)
+  .in_groups_of(3, 0)
+  .transpose
+  .sum(&.in_groups_of(3, 0)
+    .count(&->valid(Array(Int32))))
 
 puts("part2 => #{count} valid triangles")
