@@ -1,0 +1,3 @@
+group_by(&.itself) to group the letters, possibly followed by transform_values(&.size) to get the histogram
+sum(arr.reject) @ilanpillemer, where reject is complicated
+tally
