@@ -42,81 +42,85 @@ module Solver
 
     def valid
       floors.each do |k, v|
-        if v.any? { |s| s.includes?("SM") }
-          if v.includes?("SG") || (!v.any? { |s| s.index("G") })
-          else
-            return false
-          end
+        if v.any? &.includes?("SM")
+          return false if !(v.includes?("SG") || v.none? &.index("G"))
         end
-        if v.any? { |s| s.includes?("CM") }
-          if v.includes?("CG") || !v.any? { |s| s.index("G") }
-          else
-            return false
-          end
+        if v.any? &.includes?("CM")
+          return false unless v.includes?("CG") || v.none? &.index("G")
         end
-        if v.any? { |s| s.includes?("RM") }
-          if v.includes?("RG") || !v.any? { |s| s.index("G") }
-          else
-            return false
-          end
+        if v.any? &.includes?("RM")
+          return false unless v.includes?("RG") || v.none? &.index("G")
         end
-        if v.any? { |s| s.includes?("TM") }
-          if v.includes?("TG") || !v.any? { |s| s.index("G") }
-          else
-            return false
-          end
+        if v.any? &.includes?("TM")
+          return false unless v.includes?("TG") || v.none? &.index("G")
+        end
+        if v.any? &.includes?("EM")
+          return false unless v.includes?("EG") || v.none? &.index("G")
+        end
+        if v.any? &.includes?("DM")
+          return false unless v.includes?("DG") || v.none? &.index("G")
         end
       end
 
       true
     end
 
+    def height
+      current = parent
+      h = 0
+      until current.nil?
+        h += 1
+        current = current.parent
+      end
+      h
+    end
+
     def with_elevator
-      floors.find { |k, v| v.includes? "E" }.try &.first
+      floors.find { |k, v| v.includes? "E" }.not_nil!.first
     end
 
     def edges
       options = [] of State
       floors[with_elevator].reject("E").each_combination(2) do |c|
-        if with_elevator.not_nil! > 1
+        if with_elevator > 1
           n = State.new
           n.floors = self.floors.clone
           n.floors[with_elevator].reject!("E").reject! { |i| c.includes? i }
-          n.floors[with_elevator.not_nil! - 1] += c.to_a
-          n.floors[with_elevator.not_nil! - 1] << "E"
-          n.floors[with_elevator.not_nil! - 1].sort!
+          n.floors[with_elevator - 1] += c.to_a
+          n.floors[with_elevator - 1] << "E"
+          n.floors[with_elevator - 1].sort!
           n.floors[with_elevator].sort!
           n.try { |n| options << n if n.valid }
         end
-        if with_elevator.not_nil! < 4
+        if with_elevator < 4
           n = State.new
           n.floors = self.floors.clone
           n.floors[with_elevator].reject!("E").reject! { |i| c.includes? i }
-          n.floors[with_elevator.not_nil! + 1] += c.to_a
-          n.floors[with_elevator.not_nil! + 1] << "E"
-          n.floors[with_elevator.not_nil! + 1].sort!
+          n.floors[with_elevator + 1] += c.to_a
+          n.floors[with_elevator + 1] << "E"
+          n.floors[with_elevator + 1].sort!
           n.floors[with_elevator].sort!
           n.try { |n| options << n if n.valid }
         end
       end
       floors[with_elevator].reject("E").each_combination(1) do |c|
-        if with_elevator.not_nil! > 1
+        if with_elevator > 1
           n = State.new
           n.floors = self.floors.clone
           n.floors[with_elevator].reject!("E").reject! { |i| c.includes? i }
-          n.floors[with_elevator.not_nil! - 1] += c.to_a
-          n.floors[with_elevator.not_nil! - 1] << "E"
-          n.floors[with_elevator.not_nil! - 1].sort!
+          n.floors[with_elevator - 1] += c.to_a
+          n.floors[with_elevator - 1] << "E"
+          n.floors[with_elevator - 1].sort!
           n.floors[with_elevator].sort!
           n.try { |n| options << n if n.valid }
         end
-        if with_elevator.not_nil! < 4
+        if with_elevator < 4
           n = State.new
           n.floors = self.floors.clone
           n.floors[with_elevator].reject!("E").reject! { |i| c.includes? i }
-          n.floors[with_elevator.not_nil! + 1] += c.to_a
-          n.floors[with_elevator.not_nil! + 1] << "E"
-          n.floors[with_elevator.not_nil! + 1].sort!
+          n.floors[with_elevator + 1] += c.to_a
+          n.floors[with_elevator + 1] << "E"
+          n.floors[with_elevator + 1].sort!
           n.floors[with_elevator].sort!
           n.try { |n| options << n if n.valid }
         end
@@ -126,7 +130,7 @@ module Solver
   end
 
   def self.solved?(state)
-    state.floors[4].sort == ["CG", "CM", "E", "PG", "PM", "RG", "RM", "SG", "SM", "TG", "TM"]
+    state.floors[4].sort == ["CG", "CM", "E", "PG", "PM", "RG", "RM", "SG", "SM", "TG", "TM", "DG", "DM", "EG", "EM"].sort
   end
 
   def self.solve(initial)
@@ -151,7 +155,7 @@ module Solver
 
   def self.initial
     s = State.new
-    s.floors[1] = ["SG", "SM", "PG", "PM", "E"].sort
+    s.floors[1] = ["SG", "SM", "PG", "PM", "DG", "DM", "EG", "EM", "E"].sort
     s.floors[2] = ["TG", "RG", "RM", "CG", "CM"].sort
     s.floors[3] = ["TM"].sort
     s.floors[4] = [] of String
@@ -159,8 +163,7 @@ module Solver
   end
 end
 
-pp ["CG", "CM", "E", "PG", "PM", "RG", "RM", "SG", "SM", "TG", "TM"].sort
-pp ["CG", "CM", "PG", "PM", "RG", "RM", "SG", "SM", "TG", "TM", "E"].sort
 solution = Solver.solve Solver.initial
 
-pp solution
+# pp solution
+pp solution.try &.height
