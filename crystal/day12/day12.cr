@@ -4,7 +4,7 @@
 # jnz x y jumps to an instruction y away (positive means forward; negative means backward), but only if x is not zero.
 
 module Computer
-  @@register = {"a" => 0, "b" => 0, "c" => 0, "d" => 0}
+  @@register = {"a" => 0, "b" => 0, "c" => 1, "d" => 0}
   commands = {
     "cpy" => ->cpy(Array(String)),
     "inc" => ->inc(Array(String)),
@@ -47,12 +47,13 @@ STDIN.each_line do |l|
 end
 pp program
 
+puts "starting"
 pc = 0
 until pc >= program.size
   instr = program[pc].split
   pc += commands[instr.first].try &.call(instr[1..])
   #  print pc, " ", instr, " "; Computer.display
-  Computer.display
+  #  Computer.display
 end
 puts "terminated"
 pp pc
