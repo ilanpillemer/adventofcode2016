@@ -58,22 +58,25 @@ class Maze
   def edges(p : Point)
     ps = [] of Route
     ps << Route.new(Point.new p.x + 1, p.y) if value(Point.new p.x + 1, p.y) == :open
-    ps << Route.new(Point.new p.x - 1, p.y) if value(Point.new p.x - 1, p.y) == :open
+    ps << Route.new(Point.new p.x - 1, p.y) if value(Point.new p.x - 1, p.y) == :open && p.x - 1 > -1
     ps << Route.new(Point.new p.x, p.y + 1) if value(Point.new p.x, p.y + 1) == :open
-    ps << Route.new(Point.new p.x, p.y - 1) if value(Point.new p.x, p.y - 1) == :open
+    ps << Route.new(Point.new p.x, p.y - 1) if value(Point.new p.x, p.y - 1) == :open && p.y - 1 > -1
 
     ps
   end
 
   def search(target : Point)
     puts "starting search"
+    counter = 0
     q = Deque(Route).new
     start = Route.new (Point.new 1, 1)
     seen = Set{start.point}
     q.push start
     while q.size > 0
       n = q.shift
+      counter += 1 if Maze.height(n) <= 50
       if n.point.x == target.x && n.point.y == target.y
+        puts "points <= 50 #{counter}"
         return n
       end
       edges(n.point).each do |e|
