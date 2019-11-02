@@ -11,9 +11,10 @@ module M
     property r : Bool = false
     property h : String
     property p : Point
+    property parent : R?
     @@memo = Hash(String, Array(Bool)).new
 
-    def initialize(@h, @p)
+    def initialize(@h, @p, @parent = nil)
       a = get
       @u = a[0] && p.y > 0
       @d = a[1] && p.y < 4
@@ -37,6 +38,16 @@ module M
     return false
   end
 
+  def self.height(r : R)
+    hgt = 0
+    current = r.parent
+    until current.nil?
+      hgt += 1
+      current = current.parent
+    end
+    hgt
+  end
+
   # 1  procedure BFS(G,start_v):
   # 2      let Q be a queue
   # 3      label start_v as discovered
@@ -52,16 +63,24 @@ module M
   # 13                 Q.enqueue(w)
 
   def self.bfs(start)
+    max = 0
     q = Deque(R).new
     q << M::R.new(start, Point.new(0, 0))
     while !q.empty?
       r = q.shift
-      return r if r.p.x == 3 && r.p.y == 3
-      q << M::R.new(r.h + "U", Point.new(r.p.y - 1, r.p.x)) if r.u
-      q << M::R.new(r.h + "D", Point.new(r.p.y + 1, r.p.x)) if r.d && r.p.y < 3
-      q << M::R.new(r.h + "L", Point.new(r.p.y, r.p.x - 1)) if r.l
-      q << M::R.new(r.h + "R", Point.new(r.p.y, r.p.x + 1)) if r.r && r.p.x < 3
+      if r.p.x == 3 && r.p.y == 3
+        if M.height(r) > max
+          max = M.height(r)
+        end
+        # return r this solves part 1
+        next
+      end
+      q << M::R.new(r.h + "U", Point.new(r.p.y - 1, r.p.x), r) if r.u
+      q << M::R.new(r.h + "D", Point.new(r.p.y + 1, r.p.x), r) if r.d && r.p.y < 3
+      q << M::R.new(r.h + "L", Point.new(r.p.y, r.p.x - 1), r) if r.l
+      q << M::R.new(r.h + "R", Point.new(r.p.y, r.p.x + 1), r) if r.r && r.p.x < 3
     end
+    return max
   end
 end
 
@@ -74,9 +93,10 @@ end
 
 # pp M.bfs("hijkl").not_nil!.h
 
-pp M.bfs("ihgpwlah").not_nil!.h
-pp M.bfs("kglvqrro").not_nil!.h
-pp M.bfs("ulqzkmiv").not_nil!.h
+pp M.bfs("ihgpwlah")
+pp M.bfs("kglvqrro")
+pp M.bfs("ulqzkmiv")
 
-puts "part 1"
-pp M.bfs("edjrjqaa").not_nil!.h
+puts "part 2"
+pp M.bfs("edjrjqaa")
+# pp M.height(M.bfs("edjrjqaa").not_nil!)
