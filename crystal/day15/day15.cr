@@ -20,7 +20,7 @@ discs << Disc.new(19, 17) # Disc #3 has  positions; at time=0, it is at position
 discs << Disc.new(7, 1)   # Disc #4 has  positions; at time=0, it is at position .
 discs << Disc.new(5, 0)   # Disc #5 has  positions; at time=0, it is at position .
 discs << Disc.new(3, 1)   # Disc #6 has  positions; at time=0, it is at position .
-
+discs << Disc.new(11, 0)  # part 2
 pp discs
 t = 0
 solved = false
