@@ -87,3 +87,6 @@ pp d.csum(d.extend("10000", 20))
 
 pp "part 1"
 pp d.csum(d.extend("10011111011011001", 272))
+
+pp "part 2"
+pp d.csum(d.extend("10011111011011001", 35651584))
