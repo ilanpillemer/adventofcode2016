@@ -66,8 +66,11 @@ pp s.input
 s.rotate('d')
 pp s.input
 
-part1 = Scrambler.new(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'])
-STDIN.each_line do |l|
+# part1 = Scrambler.new(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'])
+part1 = Scrambler.new(['f', 'b', 'g', 'd', 'c', 'e', 'a', 'h'])
+
+input = STDIN.gets_to_end
+input.each_line do |l|
   case
   when /^rotate (left|right) (\d+) steps/ =~ l
     part1.rotate(:left, $2.to_i) if $1 == "left"
@@ -90,3 +93,37 @@ STDIN.each_line do |l|
 end
 
 pp part1.input.join
+
+options = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].permutations
+
+result = ""
+
+options.each do |o|
+  part2 = Scrambler.new(o)
+  printf("%s => ", o.join)
+  input.each_line do |l|
+    case
+    when /^rotate (left|right) (\d+) steps/ =~ l
+      part2.rotate(:left, $2.to_i) if $1 == "left"
+      part2.rotate(:right, $2.to_i) if $1 == "right"
+    when /swap letter (.) with letter (.)/ =~ l
+      part2.swap($1.char_at(0), $2.char_at(0))
+    when /move position (\d+) to position (\d+)/ =~ l
+      part2.move($1.to_i, $2.to_i)
+    when /swap position (\d+) with position (\d+)/ =~ l
+      part2.swap($1.to_i, $2.to_i)
+    when /reverse positions (\d+) through (\d+)/ =~ l
+      part2.reverse($1.to_i, $2.to_i)
+    when /rotate based on position of letter (.)/ =~ l
+      part2.rotate($1.char_at(0))
+    when /rotate right (\d+) step/ =~ l
+      part2.rotate(:right, $1.to_i)
+    else
+      pp l
+    end
+  end
+  printf("%s \n", part2.input.join)
+  if part2.input.join == "fbgdceah"
+    exit
+  end
+end
