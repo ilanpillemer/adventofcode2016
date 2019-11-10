@@ -22,9 +22,18 @@ nodes.to_a.each_permutation(2) do |c|
   a = c.first
   b = c.last
   if a.used != 0 && a.id != b.id && a.used <= b.avail
-    #    puts "#{a} <> #{b}"
     count += 1
   end
 end
 
-pp count
+puts "part1 -> #{count}"
+record Point, x : Int32, y : Int32
+grid = {} of Point => Symbol
+nodes.to_a.each_permutation(2) do |c|
+  a = c.first
+  b = c.last
+  if a.used != 0 && a.id != b.id && a.used <= b.avail
+    count += 1
+  else
+  end
+end
