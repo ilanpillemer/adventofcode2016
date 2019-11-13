@@ -4,7 +4,7 @@
 # jnz x y jumps to an instruction y away (positive means forward; negative means backward), but only if x is not zero.
 
 class Computer
-  @@register = {"a" => 7, "b" => 0, "c" => 0, "d" => 0}
+  @@register = {"a" => 12, "b" => 0, "c" => 0, "d" => 0}
   property program = [] of String
   property pc = 0
 
