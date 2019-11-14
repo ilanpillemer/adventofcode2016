@@ -13,10 +13,22 @@ STDIN.each_line do |l|
   y += 1
 end
 
+# routes for part 1
+# routes = Array(Array(Char)).new
+# ['1', '2', '3', '4', '5', '6', '7'].permutations.each do |p|
+#  routes << p.unshift('0')
+# end
+
+# routes for part 2
 routes = Array(Array(Char)).new
 ['1', '2', '3', '4', '5', '6', '7'].permutations.each do |p|
+  p.push ('0')
   routes << p.unshift('0')
 end
+
+pp routes
+
+# exit
 
 class Tree
   property p : Point
@@ -92,6 +104,7 @@ routes.each do |r|
   if c < bestn
     bestn = c
     bestr = r
+    puts "new best of #{bestn}"
   end
   #  printf("%s -> %s \n", r, cost(r, map, starts))
 end
